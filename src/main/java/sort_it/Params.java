@@ -36,34 +36,60 @@ abstract class Params {
         return newParams(Params::lineReader, comparator);
     }
 
+    abstract static class PeekableScanner<T> implements InputReader<T> {
+      Scanner scanner;
+      T next;
 
+      PeekableScanner(InputStream source) {
+          scanner = new Scanner(source);
+          next = hasNextInner() ? getNextInner() : null;
+      }
+
+      @Override
+      public T peek() {
+          return next;
+      }
+
+      @Override
+      public boolean hasNext() {
+          return next != null;
+      }
+
+      @Override
+      public T getNext() {
+          T current = next;
+          next = hasNextInner() ? getNextInner() : null;
+          return current;
+      }
+
+      abstract boolean hasNextInner();
+      abstract T getNextInner();
+    }
 
     private static InputReader<Integer> integerReader(InputStream source) {
-        Scanner scanner = new Scanner(source);
-        return new InputReader<Integer>() {
+        return new PeekableScanner<Integer>(source) {
             @Override
-            public Integer getNext() {
+            public Integer getNextInner() {
                 return scanner.nextInt();
             }
 
             @Override
-            public boolean hasNext() {
-                return scanner.hasNext();
+            boolean hasNextInner() {
+                return scanner.hasNextInt();
             }
         };
     }
 
     private static InputReader<String> lineReader(InputStream source) {
-        Scanner scanner = new Scanner(source);
-        return new InputReader<String>() {
+        return new PeekableScanner<String>(source) {
             @Override
-            public String getNext() {
+            public String getNextInner() {
                 return scanner.nextLine();
             }
 
             @Override
-            public boolean hasNext() {
-                return scanner.hasNext();
+            boolean hasNextInner() {
+                return scanner.hasNextLine();
             }
         };
     }
