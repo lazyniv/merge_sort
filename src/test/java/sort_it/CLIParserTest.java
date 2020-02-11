@@ -13,6 +13,7 @@ public class CLIParserTest {
     @Test
     public void parse_SimpleArgsGiven_ShouldBeWorkRight() throws ParseException {
         String[] args = {"-i", "-d", "out.txt", "in1.txt", "in2.txt"};
+        Params params = parse(args);
         List<String> actual = parse(args);
         List<String> expected = List.of("i", "d", "out.txt", "in1.txt", "in2.txt");
         Assert.assertEquals(actual, expected);

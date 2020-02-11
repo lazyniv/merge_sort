@@ -8,4 +8,3 @@ interface InputReader<T> {
     boolean hasNext();
 }
 
-

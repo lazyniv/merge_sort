@@ -3,6 +3,7 @@ package sort_it;
 import org.apache.commons.cli.*;
 
 import java.util.Comparator;
+import java.util.List;
 
 public class CLIParser {
 
@@ -17,26 +18,18 @@ public class CLIParser {
         CommandLine cmd = parser.parse(options, args);
 
         Params result;
-        if(cmd.hasOption(OPTION_INPUT_TYPE_STRING)) {
+
+        if(cmd.hasOption(OPTION_INPUT_TYPE_INTEGER)) {
             result = Params.integerInputParams(getComparator(cmd));
-        } else if(cmd.hasOption(OPTION_INPUT_TYPE_INTEGER)) {
-            result = Params.integerLinesParams(getComparator(cmd));
+        } else if(cmd.hasOption(OPTION_INPUT_TYPE_STRING)) {
+            result = Params.lineInputParams(getComparator(cmd));
         } else {
             throw new ParseException("Should be one of this options: -i or -s");
         }
 
-    /*
-        if(cmd.hasOption(OPTION_SORT_ORDER_DESCENDING)) {
-
-            argsList.add(OPTION_SORT_ORDER_DESCENDING);
-        } else {
-            argsList.add(OPTION_SORT_ORDER_ASCENDING);
-        }
-
-        argsList.addAll(cmd.getArgList());
-
-        return argsList;
-    */
+        List<String> files = cmd.getArgList();
+        result.outputFile = files.get(0);
+        result.inputFiles = files.subList(1, files.size());
         return result;
     }
 

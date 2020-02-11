@@ -7,16 +7,18 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 abstract class Params {
+    List<String> inputFiles;
+    String outputFile;
+
     abstract <T> Function<InputStream, InputReader<T>> inputReaderFactory();
     abstract <T> Comparator<T> comparator();
-    List<String> files;
 
-    private static <T> Params newParams(Function<InputStream, InputReader<T>> inmputReaderFactory, Comparator<T> comparator) {
+    private static <T> Params newParams(Function<InputStream, InputReader<T>> inputReaderFactory, Comparator<T> comparator) {
         return new Params() {
 
             @Override
             Function<InputStream, InputReader<T>> inputReaderFactory() {
-                return inmputReaderFactory;
+                return inputReaderFactory;
             }
 
             @Override
@@ -30,9 +32,11 @@ abstract class Params {
         return newParams(Params::integerReader, comparator);
     }
 
-    static Params integerLinesParams(Comparator<String> comparator) {
+    static Params lineInputParams(Comparator<String> comparator) {
         return newParams(Params::lineReader, comparator);
     }
+
+
 
     private static InputReader<Integer> integerReader(InputStream source) {
         Scanner scanner = new Scanner(source);
