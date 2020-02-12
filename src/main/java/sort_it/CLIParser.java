@@ -20,6 +20,11 @@ public class CLIParser {
 
         Params result;
 
+        if(cmd.hasOption(HELP_OPTION)) {
+            printHelp();
+            System.exit(0);
+        }
+
         if(cmd.hasOption(INPUT_TYPE_INTEGER_OPTION)) {
             result = Params.integerInputParams(getComparator(cmd));
         } else if(cmd.hasOption(INPUT_TYPE_STRING_OPTION)) {
@@ -27,7 +32,6 @@ public class CLIParser {
         } else {
             throw new ParseException("Missing option: -i or -s");
         }
-
 
         List<String> files = cmd.getArgList();
         if(files.size() < 2) {
