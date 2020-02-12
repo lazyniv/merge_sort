@@ -1,0 +1,17 @@
+language: java
+
+jdk:
+  - oraclejdk8
+  - oraclejdk9
+  - oraclejdk11
+
+os:
+  - linux
+
+before_script:
+  - ./gradlew build
+
+script:
+  - ./gradlew check
+  - java -jar ./build/libs/merge_sort-1.0.jar
+
