@@ -40,7 +40,7 @@ public class CLIParser {
 
     public static void printHelp() {
             HelpFormatter formatter = new HelpFormatter();
-            formatter.printHelp("sort-it [OPTION]... [OUTPUT_FILE]  [INPUT_FILE]...", prepareOptions());
+            formatter.printHelp("java -jar build/libs/merge_sort-1.0.jar [OPTION]... [OUTPUT_FILE]  [INPUT_FILE]...", prepareOptions());
     }
 
     private static <T extends Comparable<T>> Comparator<T> getComparator(CommandLine cmd) {

@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 class MergeSort {
 
-    static <T> void mergeFiles(Params p) throws IOException {
+    public static <T> void mergeFiles(Params p) throws IOException {
         Queue<String> filesQueue = new ArrayDeque<>(p.getInputFiles());
 
         Function<InputStream, InputReader<T>> inputReaderFactory = p.inputReaderFactory();
