@@ -79,7 +79,8 @@ public class CLIParser {
         options.addOption(stringSortOption)
                 .addOption(intSortOption)
                 .addOption(ascendingSortOption)
-                .addOption(descendingSortOption);
+                .addOption(descendingSortOption)
+                .addOption(helpOption);
 
         return options;
 
