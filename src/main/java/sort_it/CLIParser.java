@@ -11,6 +11,7 @@ public class CLIParser {
     final static String INPUT_TYPE_INTEGER_OPTION = "i";
     final static String SORT_ORDER_ASCENDING_OPTION = "a";
     final static String SORT_ORDER_DESCENDING_OPTION = "d";
+    final static String HELP_OPTION = "h";
 
     public static Params parse(String[] args) throws ParseException {
         CommandLineParser parser = new DefaultParser();
@@ -69,6 +70,10 @@ public class CLIParser {
 
         Option descendingSortOption = Option.builder(SORT_ORDER_DESCENDING_OPTION)
                 .desc("descending sort mode")
+                .build();
+
+        Option helpOption = Option.builder(HELP_OPTION)
+                .desc("show this message")
                 .build();
 
         options.addOption(stringSortOption)
