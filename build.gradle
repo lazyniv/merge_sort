@@ -1,9 +1,11 @@
 plugins {
     id 'java'
+
+    id 'application'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'ru.cft.internship'
+version '1.0'
 
 sourceCompatibility = 1.8
 
@@ -11,9 +13,36 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    // configuration that holds jars to include in the jar
+    extraLibs
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 
-    compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
+    extraLibs  group: 'commons-cli', name: 'commons-cli', version: '1.4'
 
+    configurations.compile.extendsFrom(configurations.extraLibs)
+}
+
+application {
+    mainClassName = 'sort_it.Main'
+}
+
+jar {
+
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Main-class': ' sort_it.Main')
+    }
+
+    from {
+        configurations.extraLibs.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+run {
+    standardInput = System.in
 }
