@@ -1,7 +1,6 @@
 language: java
 
 jdk:
-  - oraclejdk8
   - oraclejdk9
   - oraclejdk11
 
@@ -10,8 +9,11 @@ os:
 
 before_script:
   - ./gradlew build
+  - mkdir ./tmp
+  - echo 1 > ./tmp/1
+  - echo 2 > ./tmp/2
 
 script:
   - ./gradlew check
-  - java -jar ./build/libs/merge_sort-1.0.jar
+  - java -jar ./build/libs/merge_sort-1.0.jar -i ./tmp/1 ./tmp/2 ./tmp/out
 
