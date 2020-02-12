@@ -7,8 +7,24 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 abstract class Params {
-    List<String> inputFiles;
-    String outputFile;
+    private List<String> inputFiles;
+    private String outputFile;
+
+    void setInputFiles(List<String> inputFiles) {
+        this.inputFiles = inputFiles;
+    }
+
+    void setOutputFile(String outputFile) {
+        this.outputFile = outputFile;
+    }
+
+    public List<String> getInputFiles() {
+        return inputFiles;
+    }
+
+    public String getOutputFile() {
+        return outputFile;
+    }
 
     abstract <T> Function<InputStream, InputReader<T>> inputReaderFactory();
     abstract <T> Comparator<T> comparator();
@@ -37,33 +53,41 @@ abstract class Params {
     }
 
     abstract static class PeekableScanner<T> implements InputReader<T> {
-      Scanner scanner;
-      T next;
+        protected Scanner scanner;
 
-      PeekableScanner(InputStream source) {
-          scanner = new Scanner(source);
-          next = hasNextInner() ? getNextInner() : null;
-      }
+        private T next;
+        private T current;
 
-      @Override
-      public T peek() {
-          return next;
-      }
+        PeekableScanner(InputStream source) {
+            scanner = new Scanner(source);
+            next = hasNextInner() ? getNextInner() : null;
+            current = next;
+        }
 
-      @Override
-      public boolean hasNext() {
-          return next != null;
-      }
+        @Override
+        public T peekNext() {
+            return next;
+        }
 
-      @Override
-      public T getNext() {
-          T current = next;
-          next = hasNextInner() ? getNextInner() : null;
-          return current;
-      }
+        @Override
+        public boolean hasNext() {
+            return next != null;
+        }
 
-      abstract boolean hasNextInner();
-      abstract T getNextInner();
+        @Override
+        public T getNext() {
+            current = next;
+            next = hasNextInner() ? getNextInner() : null;
+            return current;
+        }
+
+        @Override
+        public T peekCurrent() {
+            return current;
+        }
+
+        abstract boolean hasNextInner();
+        abstract T getNextInner();
     }
 
     private static InputReader<Integer> integerReader(InputStream source) {

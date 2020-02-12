@@ -28,8 +28,9 @@ public class CLIParser {
         }
 
         List<String> files = cmd.getArgList();
-        result.outputFile = files.get(0);
-        result.inputFiles = files.subList(1, files.size());
+        result.setOutputFile(files.get(0));
+        result.setInputFiles(files.subList(1, files.size()));
+
         return result;
     }
 
