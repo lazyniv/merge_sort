@@ -15,7 +15,6 @@ class MergeSort {
     static <T> void mergeFiles(Params p) throws IOException {
         Queue<String> filesQueue = new ArrayDeque<>(p.getInputFiles());
 
-
         Function<InputStream, InputReader<T>> inputReaderFactory = p.inputReaderFactory();
         Comparator<T> comparator = p.comparator();
 
@@ -41,7 +40,7 @@ class MergeSort {
 
         Path resultFile = Paths.get(filesQueue.poll());
 
-        Files.copy(resultFile, Paths.get(p.getOutputFile()), StandardCopyOption.REPLACE_EXISTING);
+        Files.move(resultFile, Paths.get(p.getOutputFile()), StandardCopyOption.REPLACE_EXISTING);
 
     }
 

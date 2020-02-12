@@ -7,14 +7,15 @@ import java.util.Scanner;
 import java.util.function.Function;
 
 abstract class Params {
+
     private List<String> inputFiles;
     private String outputFile;
 
-    void setInputFiles(List<String> inputFiles) {
+    public void setInputFiles(List<String> inputFiles) {
         this.inputFiles = inputFiles;
     }
 
-    void setOutputFile(String outputFile) {
+    public void setOutputFile(String outputFile) {
         this.outputFile = outputFile;
     }
 
@@ -26,33 +27,34 @@ abstract class Params {
         return outputFile;
     }
 
-    abstract <T> Function<InputStream, InputReader<T>> inputReaderFactory();
-    abstract <T> Comparator<T> comparator();
+    public abstract <T> Function<InputStream, InputReader<T>> inputReaderFactory();
+    public abstract <T> Comparator<T> comparator();
 
     private static <T> Params newParams(Function<InputStream, InputReader<T>> inputReaderFactory, Comparator<T> comparator) {
         return new Params() {
 
             @Override
-            Function<InputStream, InputReader<T>> inputReaderFactory() {
+            public Function<InputStream, InputReader<T>> inputReaderFactory() {
                 return inputReaderFactory;
             }
 
             @Override
-            Comparator<T> comparator() {
+            public Comparator<T> comparator() {
                 return comparator;
             }
+
         };
     }
 
-    static Params integerInputParams(Comparator<Integer> comparator) {
+    public static Params integerInputParams(Comparator<Integer> comparator) {
         return newParams(Params::integerReader, comparator);
     }
 
-    static Params lineInputParams(Comparator<String> comparator) {
+    public static Params lineInputParams(Comparator<String> comparator) {
         return newParams(Params::lineReader, comparator);
     }
 
-    abstract static class PeekableScanner<T> implements InputReader<T> {
+    public abstract static class PeekableScanner<T> implements InputReader<T> {
         protected Scanner scanner;
 
         private T next;
@@ -86,35 +88,39 @@ abstract class Params {
             return current;
         }
 
-        abstract boolean hasNextInner();
-        abstract T getNextInner();
+        public abstract boolean hasNextInner();
+        public abstract T getNextInner();
     }
 
     private static InputReader<Integer> integerReader(InputStream source) {
         return new PeekableScanner<Integer>(source) {
+
             @Override
             public Integer getNextInner() {
                 return scanner.nextInt();
             }
 
             @Override
-            boolean hasNextInner() {
+            public boolean hasNextInner() {
                 return scanner.hasNextInt();
             }
+
         };
     }
 
     private static InputReader<String> lineReader(InputStream source) {
         return new PeekableScanner<String>(source) {
+
             @Override
             public String getNextInner() {
                 return scanner.nextLine();
             }
 
             @Override
-            boolean hasNextInner() {
+            public boolean hasNextInner() {
                 return scanner.hasNextLine();
             }
+
         };
     }
 }

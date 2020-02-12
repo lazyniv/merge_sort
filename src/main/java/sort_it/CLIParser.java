@@ -7,10 +7,10 @@ import java.util.List;
 
 public class CLIParser {
 
-    final static String OPTION_INPUT_TYPE_STRING = "s";
-    final static String OPTION_INPUT_TYPE_INTEGER = "i";
-    final static String OPTION_SORT_ORDER_ASCENDING = "a";
-    final static String OPTION_SORT_ORDER_DESCENDING = "d";
+    final static String INPUT_TYPE_STRING_OPTION = "s";
+    final static String INPUT_TYPE_INTEGER_OPTION = "i";
+    final static String SORT_ORDER_ASCENDING_OPTION = "a";
+    final static String SORT_ORDER_DESCENDING_OPTION = "d";
 
     public static Params parse(String[] args) throws ParseException {
         CommandLineParser parser = new DefaultParser();
@@ -19,25 +19,33 @@ public class CLIParser {
 
         Params result;
 
-        if(cmd.hasOption(OPTION_INPUT_TYPE_INTEGER)) {
+        if(cmd.hasOption(INPUT_TYPE_INTEGER_OPTION)) {
             result = Params.integerInputParams(getComparator(cmd));
-        } else if(cmd.hasOption(OPTION_INPUT_TYPE_STRING)) {
+        } else if(cmd.hasOption(INPUT_TYPE_STRING_OPTION)) {
             result = Params.lineInputParams(getComparator(cmd));
         } else {
-            throw new ParseException("Should be one of this options: -i or -s");
+            throw new ParseException("Missing option: -i or -s");
         }
 
+
         List<String> files = cmd.getArgList();
+        if(files.size() < 2) {
+            throw new ParseException("Missing arguments: [OUTPUT_FILE] and [INPUT_FILE]...");
+        }
         result.setOutputFile(files.get(0));
         result.setInputFiles(files.subList(1, files.size()));
 
         return result;
     }
 
-    private static <T extends Comparable<T>> Comparator<T> getComparator(CommandLine cmd) {
-        if(cmd.hasOption(OPTION_SORT_ORDER_DESCENDING)) {
-            return Comparator.reverseOrder();
+    public static void printHelp() {
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("sort-it [OPTION]... [OUTPUT_FILE]  [INPUT_FILE]...", prepareOptions());
+    }
 
+    private static <T extends Comparable<T>> Comparator<T> getComparator(CommandLine cmd) {
+        if(cmd.hasOption(SORT_ORDER_DESCENDING_OPTION)) {
+            return Comparator.reverseOrder();
         } else {
             return Comparator.naturalOrder();
         }
@@ -47,19 +55,19 @@ public class CLIParser {
     private static Options prepareOptions() {
         Options options = new Options();
 
-        Option stringSortOption = Option.builder(OPTION_INPUT_TYPE_STRING)
+        Option stringSortOption = Option.builder(INPUT_TYPE_STRING_OPTION)
                 .desc("string sort mode")
                 .build();
 
-        Option intSortOption = Option.builder(OPTION_INPUT_TYPE_INTEGER)
+        Option intSortOption = Option.builder(INPUT_TYPE_INTEGER_OPTION)
                 .desc("int sort mode")
                 .build();
 
-        Option ascendingSortOption = Option.builder(OPTION_SORT_ORDER_ASCENDING)
+        Option ascendingSortOption = Option.builder(SORT_ORDER_ASCENDING_OPTION)
                 .desc("ascending sort mode")
                 .build();
 
-        Option descendingSortOption = Option.builder(OPTION_SORT_ORDER_DESCENDING)
+        Option descendingSortOption = Option.builder(SORT_ORDER_DESCENDING_OPTION)
                 .desc("descending sort mode")
                 .build();
 
