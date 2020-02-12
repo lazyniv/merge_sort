@@ -1,5 +1,7 @@
 # СLI merge sort
 
+![](https://travis-ci.org/lazyniv/merge_sort.svg?branch=master)
+
 ## Requirements
 
 Java 1.9 or latter
