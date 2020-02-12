@@ -15,5 +15,5 @@ before_script:
 
 script:
   - ./gradlew check
-  - java -jar ./build/libs/merge_sort-1.0.jar -i ./tmp/1 ./tmp/2 ./tmp/out
+  - java -jar ./build/libs/merge_sort-1.0.jar -i ./tmp/out ./tmp/1 ./tmp/2
 
