@@ -6,6 +6,8 @@
 
 Java 1.9 or latter
 
+Solution was tested on openjdk9 and openjdk11 
+
 ## Build and run
 ### If you have gradle:
 ```
