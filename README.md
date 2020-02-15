@@ -4,7 +4,11 @@
 
 ## Requirements
 
-Java 1.9 or latter
+* Java 1.9 or latter
+
+* Apache Commons CLI 1.4
+
+* JUnit 4.12 for run unit tests
 
 Solution was tested on openjdk9 and openjdk11 
 
