@@ -4,16 +4,16 @@
 
 ## Overview 
 
-Merge sort utility for merging several files.
+The Merge sort utility for merging several files.
 
-Data in files can have string(-s) or integer(-i) type. Each item in the file must begin on a new line. Utility provides ascending(-a) and descending(-d) sorted files.
+Data in files can be of the two types -- integer or string. Each item in the file must begin on a new line. The utility supports files sorted in ascending and descending order.
 
-The program parameters are set at start through command line arguments, in order:
+The program parameters are set at the start through command line arguments, in order:
 
 1) Sort mode (-a or -d). if nothing is specified, then the default sort mode is ascending.
 2) Data type (-i or -s)
 3) Name of output file
-4) The remaining parameters are the names of the input files.
+4) The remaining parameters are the names of the input files
 
 ## Requirements
 
